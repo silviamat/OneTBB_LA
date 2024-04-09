@@ -30,17 +30,60 @@ public:
 
     size_t rows() const { return rows_; }
     size_t columns() const { return columns_; }
+    size_t size() const { return elements_.size();}
 
     const scalar_type& operator()(size_t row, size_t column) const {
         assert(row < rows_);
         assert(column < columns_);
         return elements_[row * columns_ + column];
     }
+
     scalar_type& operator()(size_t row, size_t column) {
         assert(row < rows_);
         assert(column < columns_);
         return elements_[row * columns_ + column];
     }
+
+    bool operator == (const matrix<scalar_type> other){
+        if(other.rows() != rows_){return false;}
+        if(other.columns() != columns_){return false;}
+        for(size_t i = 0; i < rows_; i++){
+            for(size_t j = 0; j < columns_ ; j++){
+                if(elements_[i*columns_ + j] != other(i,j)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    matrix operator*(matrix other){
+        matrix result(rows_, other.columns());
+        assert(columns_ == other.rows());
+        assert(rows_ > 0 && columns_ > 0 && other.columns_ > 0);
+        assert(rows_ * columns_ <= elements_.size() && other.rows() * other.columns() <= other.size());
+        for (unsigned int i = 0; i < rows_; i++) {
+            for (unsigned int j = 0; j < other.columns(); j++) {
+                scalar_type temp = elements_[i * columns_] * other(0,j);
+                for (unsigned int k = 1; k < columns_; k++) {
+                    temp += elements_[i * columns_ + k] * other(k,j);
+                }
+                result(i,j) = temp;
+            }
+        }
+        return result;
+    }
+
+    matrix transpose(){
+        matrix result(columns_, rows_);
+        for (size_t i = 0; i < rows_; i++) {
+            for (size_t j = 0; j < columns_; j++) {
+                result(j,i) = elements_[i*columns_ + j];
+            }
+        }
+        return result;
+    }
+
 private:
     size_t rows_;
     size_t columns_;
@@ -49,5 +92,7 @@ private:
 
 template <typename scalar_type>
 void print(std::ostream& out, const matrix<scalar_type>& a);
+template <typename scalar_type>
+matrix<scalar_type> read_input(const char *inputfile);
 
 #endif //LINALG_SEQ_MATRIX_HPP

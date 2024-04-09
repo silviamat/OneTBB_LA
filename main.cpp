@@ -7,6 +7,9 @@ int main() {
                             {15, 18, 0},
                             {-5, 0, 11}});
     print_cholesky_factor(matrix1);
+    std::cout << "Transpose:\n";
+    print(std::cout, cholesky_factor(matrix1).transpose());
+    std::cout << "Correct: " << check_cholesky(matrix1, cholesky_factor(matrix1)) << "\n";
 
     matrix<double> matrix2(3, 3,
                            {{4, 12, -16},
@@ -22,11 +25,12 @@ int main() {
     print_cholesky_factor(matrix3);
 
     // LU
-    matrix<double> matrix4(3, 3,
+    /*matrix<double> matrix4(3, 3,
                            {{2, -1, -2},
                             {-4, 6, 3},
                             {-4, -2, 8}});
-    print_LU_decomposition(matrix4);
+    print_LU_decomposition(matrix4);*/
+    //matrix M = read_input<int>("/Users/silvia/CLionProjects/linalg_seq/inputs/d750.O");
 
     return 0;
 }
