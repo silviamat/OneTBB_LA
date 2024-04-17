@@ -93,6 +93,6 @@ private:
 template <typename scalar_type>
 void print(std::ostream& out, const matrix<scalar_type>& a);
 template <typename scalar_type>
-matrix<scalar_type> read_input(const char *inputfile);
+matrix<scalar_type> read_matrix(const char *inputfile);
 
 #endif //LINALG_SEQ_MATRIX_HPP
