@@ -42,7 +42,7 @@ matrix<scalar_type> read_matrix(const char *inputfile) {
 
     for(size_t i = 0; i < n; i++){
         for(size_t j = 0; j <= i; j++) {
-            file.read(buf, sizeof(scalar_type));
+            file.read(buf, sizeof(int));
             M(i,j) = strtol(buf, &pEnd, 10);
         }
     }

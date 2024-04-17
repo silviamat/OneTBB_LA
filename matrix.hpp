@@ -57,16 +57,16 @@ public:
         return true;
     }
 
-    matrix operator*(matrix other){
-        matrix result(rows_, other.columns());
+    matrix operator * (matrix other){
         assert(columns_ == other.rows());
         assert(rows_ > 0 && columns_ > 0 && other.columns_ > 0);
         assert(rows_ * columns_ <= elements_.size() && other.rows() * other.columns() <= other.size());
+        matrix result(rows_, other.columns());
         for (unsigned int i = 0; i < rows_; i++) {
             for (unsigned int j = 0; j < other.columns(); j++) {
                 scalar_type temp = elements_[i * columns_] * other(0,j);
                 for (unsigned int k = 1; k < columns_; k++) {
-                    temp += elements_[i * columns_ + k] * other(k,j);
+                    temp += elements_[(i * columns_) + k] * other(k,j);
                 }
                 result(i,j) = temp;
             }
@@ -84,15 +84,35 @@ public:
         return result;
     }
 
+    bool is_symmetric(){
+        for (size_t i = 0; i < rows_; i++) {
+            for (size_t j = 0; j < columns_; j++) {
+                if(elements_[i*columns_ + j] != elements_[j*columns_ + i]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool is_lower(){
+        for (size_t i = 0; i < rows_; i++) {
+            for (size_t j = i+1; j < columns_; j++) {
+                if(elements_[i*columns_ + j] != 0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 private:
     size_t rows_;
     size_t columns_;
     std::vector<scalar_type> elements_;
 };
 
-template <typename scalar_type>
-void print(std::ostream& out, const matrix<scalar_type>& a);
-template <typename scalar_type>
-matrix<scalar_type> read_matrix(const char *inputfile);
+template <typename scalar_type> void print(std::ostream& out, const matrix<scalar_type>& a);
+template <typename scalar_type> matrix<scalar_type> read_matrix(const char *inputfile);
 
 #endif //LINALG_SEQ_MATRIX_HPP
