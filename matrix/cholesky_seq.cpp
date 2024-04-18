@@ -20,16 +20,3 @@ matrix<scalar_type> cholesky_factor(const matrix<scalar_type>& input) {
     }
     return result;
 }
-
-template<typename scalar_type>
-void print_cholesky_factor(const matrix<scalar_type>& matrix) {
-    std::cout << "Matrix:\n";
-    print(std::cout, matrix);
-    std::cout << "Cholesky factor:\n";
-    print(std::cout, cholesky_factor(matrix));
-}
-
-template<typename scalar_type>
-bool check_cholesky(const matrix<scalar_type>& og_matrix, matrix<scalar_type> fact_matrix){
-    return (fact_matrix * fact_matrix.transpose()) == og_matrix;
-}

@@ -40,11 +40,14 @@ matrix<scalar_type> read_matrix(const char *inputfile) {
 
     matrix M = matrix(n, n, 0);
 
-    for(size_t i = 0; i < n; i++){
-        for(size_t j = 0; j <= i; j++) {
+    for(long i = 0; i < n; i++){
+        for(long j = 0; j <= i; j++) {
             file.read(buf, sizeof(int));
             M(i,j) = strtol(buf, &pEnd, 10);
         }
+    }
+    if(file.peek() != EOF){
+        std::cerr << "Error: elements left to read\n";
     }
     file.close();
 

@@ -1,4 +1,4 @@
-#include "cholesky.cpp"
+#include "cholesky_seq.cpp"
 #include <tuple>
 
 template <typename scalar_type>
@@ -13,7 +13,7 @@ std::tuple<matrix<scalar_type>,matrix<scalar_type>> dolittle_decomposition(const
         for (size_t k = i; k < n; k++)
         {
             scalar_type sum = 0;
-            for (int j = 0; j < i; j++)
+            for (size_t j = 0; j < i; j++)
                 sum += (lower(i,j) * upper(j,k));
             upper(i,k) = input(i,k) - sum;
         }
