@@ -32,13 +32,18 @@ public:
     size_t columns() const { return columns_; }
     size_t size() const { return elements_.size();}
 
-    const scalar_type& operator()(size_t row, size_t column) const {
+    scalar_type& operator()(size_t row, size_t column) {
         assert(row < rows_);
         assert(column < columns_);
         return elements_[row * columns_ + column];
     }
 
-    scalar_type& operator()(size_t row, size_t column) {
+    scalar_type& operator[](size_t elem) {
+        assert(elem < elements_.size());
+        return elements_[elem];
+    }
+
+    const scalar_type& operator()(size_t row, size_t column) const {
         assert(row < rows_);
         assert(column < columns_);
         return elements_[row * columns_ + column];

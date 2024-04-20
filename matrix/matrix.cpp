@@ -18,8 +18,50 @@ void print(std::ostream& out, const matrix<scalar_type>& a) {
 template <typename scalar_type>
 void lowerToFull(matrix<scalar_type> & M){
     for(size_t i = 0; i < M.rows(); i++){
-        for(size_t j = i+1; j < M.rows(); j++) {
-            M(i,j) = M(j,i);
+        for(size_t j = i+1; j < M.columns(); j++){
+            M(j, i) = M(i, j); // Update the symmetric element
+        }
+    }
+}
+
+void readVector(std::ifstream & file, std::vector<long> & input, long n, long num, long size){
+    long i, j, item;
+    char tmp, buf[100], *pEnd;
+
+    i = 0;
+    while (i < n) {
+        file.read(buf, num*size + 1);
+        j = 0;
+        while(j < num && i<n) {
+            tmp = buf[(j+1)*size];
+            buf[(j+1)*size] = 0;  /* null terminate */
+            item = strtol(&buf[j*size], &pEnd, 10);
+            buf[(j+1)*size] = tmp;
+            input.push_back(item);
+            i++;
+            j++;
+        }
+    }
+}
+
+template <typename scalar_type>
+void create_matrix(matrix<scalar_type> & M, std::vector<long> row, std::vector<long> col, long n){
+    size_t count = 0;
+    scalar_type maxm = 0;
+    for(size_t i = 0; i < row.size() - 1; i++){
+        if (row[i+1] - row[i] > maxm) {
+            maxm = row[i+1] - row[i];
+        }
+    }
+
+    for(size_t i = 0; i < row.size() - 1; i++){
+        for(size_t j = 0; j < row[i+1] - row[i]; j++){
+            if (row[i] == (col[count] - row[i]*n)) {
+                M[col[count]]  = maxm + 0.1;
+            } else {
+                M[col[count]]  = -1.0;
+            }
+            count++;
         }
     }
 }
@@ -27,30 +69,29 @@ void lowerToFull(matrix<scalar_type> & M){
 template <typename scalar_type>
 matrix<scalar_type> read_matrix(const char *inputfile) {
     std::ifstream file;
-    long n;
-    char buf[100], *pEnd;
+    char c;
+    long n, m, rowsize, rownum, colsize, colnum;
+    std::vector<long> row,col;
 
     file.open(inputfile, std::ifstream::in);
     if (!file) {
         std::cerr << "Error: Cannot open " << inputfile << " for reading\n";
     }
 
-    file.read(buf, sizeof(long));
-    n = strtol(buf,&pEnd, 10);
+    file >> n >> m >> rownum >> rowsize >> colnum >> colsize;
+    file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    matrix M = matrix(n, n, 0);
+    matrix M = matrix(n,n,0);
+    row.push_back(0);
+    readVector(file, row, n, rownum, rowsize);
+    readVector(file, col, m, colnum, colsize);
+    create_matrix(M, row, col, n);
+    lowerToFull(M);
 
-    for(long i = 0; i < n; i++){
-        for(long j = 0; j <= i; j++) {
-            file.read(buf, sizeof(int));
-            M(i,j) = strtol(buf, &pEnd, 10);
-        }
-    }
     if(file.peek() != EOF){
-        std::cerr << "Error: elements left to read\n";
+        std::cerr << "Error: file was not read completely\n";;
     }
     file.close();
 
-    lowerToFull(M);
     return M;
 }

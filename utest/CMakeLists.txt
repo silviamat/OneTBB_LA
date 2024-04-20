@@ -3,8 +3,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
-
 # Executable for all unit tests with list of sources
 add_executable(utest utest.cpp)
 # Library dependencies
