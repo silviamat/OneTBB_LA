@@ -4,7 +4,7 @@ add_library(matrix
         dolittle.cpp
         gaussian.cpp
         cholesky_seq.cpp
-        cholesky_par.cpp)
+        cholesky_opt.cpp)
 
 find_package(TBB)
 target_link_libraries(matrix TBB::tbb)

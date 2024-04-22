@@ -30,7 +30,11 @@ void readVector(std::ifstream & file, std::vector<long> & input, long n, long nu
 
     i = 0;
     while (i < n) {
-        file.read(buf, num*size + 1);
+        if(i+num + 1 > n){
+            file.read(buf, (n-i)*size + 1);
+        }else {
+            file.read(buf, num * size + 1);
+        }
         j = 0;
         while(j < num && i<n) {
             tmp = buf[(j+1)*size];
@@ -56,10 +60,10 @@ void create_matrix(matrix<scalar_type> & M, std::vector<long> row, std::vector<l
 
     for(size_t i = 0; i < row.size() - 1; i++){
         for(size_t j = 0; j < row[i+1] - row[i]; j++){
-            if (row[i] == (col[count] - row[i]*n)) {
-                M[col[count]]  = maxm + 0.1;
+            if (col[count]-1 == (row[i] - row[i]*n)) {
+                M(i,col[count]-1) = maxm + 0.1;
             } else {
-                M[col[count]]  = -1.0;
+                M(i,col[count]-1) = -1;
             }
             count++;
         }

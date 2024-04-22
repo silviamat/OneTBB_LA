@@ -1,4 +1,4 @@
-#include "matrix/cholesky_par.cpp"
+#include "matrix/cholesky_opt.cpp"
 #include <gtest/gtest.h>
 
 namespace {
@@ -14,13 +14,13 @@ namespace {
         EXPECT_EQ((matrix1 == matrix2), 1);
     }
 
-    TEST(utest, cholesky_par) {
+    TEST(utest, cholesky_opt) {
         // we test all block.cpp functionalities for the small file and traces
         matrix<double> matrix1(3, 3,
                                {{25, 15, -5},
                                 {15, 18, 0},
                                 {-5, 0,  11}});
-        matrix cholesky = cholesky_factor_par(matrix1);
+        matrix cholesky = cholesky_factor_opt(matrix1);
         matrix transpose = cholesky.transpose();
         matrix matrix2 = cholesky * transpose;
         EXPECT_EQ((matrix1 == matrix2), 1);
