@@ -3,7 +3,6 @@
 
 namespace {
     TEST(utest, cholesky_seq) {
-        // we test all block.cpp functionalities for the small file and traces
         matrix<double> matrix1(3, 3,
                                {{25, 15, -5},
                                 {15, 18, 0},
@@ -15,7 +14,6 @@ namespace {
     }
 
     TEST(utest, cholesky_opt) {
-        // we test all block.cpp functionalities for the small file and traces
         matrix<double> matrix1(3, 3,
                                {{25, 15, -5},
                                 {15, 18, 0},
