@@ -1,4 +1,4 @@
-#include "matrix/cholesky_opt.cpp"
+#include "matrix/dolittle_opt.cpp"
 #include <gtest/gtest.h>
 
 namespace {
@@ -22,5 +22,23 @@ namespace {
         matrix transpose = cholesky.transpose();
         matrix matrix2 = cholesky * transpose;
         EXPECT_EQ((matrix1 == matrix2), 1);
+    }
+
+    TEST(utest, LU_seq) {
+        matrix<double> matrix1(3, 3,
+                               {{25, 15, -5},
+                                {15, 18, 0},
+                                {-5, 0,  11}});
+        std::tuple<matrix<double>, matrix<double>> result = dolittle_decomposition(matrix1);
+        EXPECT_EQ((matrix1 == get<1>(result)*get<0>(result)), 1);
+    }
+
+    TEST(utest, LU_opt) {
+        matrix<double> matrix1(3, 3,
+                               {{25, 15, -5},
+                                {15, 18, 0},
+                                {-5, 0,  11}});
+        std::tuple<matrix<double>, matrix<double>> result = dolittle_decomposition_opt(matrix1);
+        EXPECT_EQ((matrix1 == get<1>(result)*get<0>(result)), 1);
     }
 }
