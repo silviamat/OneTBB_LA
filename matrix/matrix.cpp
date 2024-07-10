@@ -1,5 +1,31 @@
 #include "matrix.hpp"
-#include<fstream>
+#include <fstream>
+#include <cstdlib>
+
+template <typename scalar_type>
+matrix<scalar_type> create_matrix(const char *inputfile) {
+    size_t rows, cols, index;
+    double value;
+    std::ifstream file(inputfile);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: " << inputfile << std::endl;
+    }
+
+    file >> rows >> cols;
+
+    matrix M = matrix(rows,cols,0.0);
+
+    int row_idx = 0;
+    while (file >> index >> value) {
+        M(row_idx,index) = value;
+        if (file.peek() == '\n') {
+            row_idx++;
+        }
+    }
+
+    file.close();
+    return M;
+}
 
 template <typename scalar_type>
 void print(std::ostream& out, const matrix<scalar_type>& a) {
@@ -15,7 +41,7 @@ void print(std::ostream& out, const matrix<scalar_type>& a) {
     }
 }
 
-template <typename scalar_type>
+/*template <typename scalar_type>
 void lowerToFull(matrix<scalar_type> & M){
     for(size_t i = 0; i < M.rows(); i++){
         for(size_t j = i+1; j < M.columns(); j++){
@@ -38,7 +64,7 @@ void readVector(std::ifstream & file, std::vector<long> & input, long n, long nu
         j = 0;
         while(j < num && i<n) {
             tmp = buf[(j+1)*size];
-            buf[(j+1)*size] = 0;  /* null terminate */
+            buf[(j+1)*size] = 0;   null terminate
             item = strtol(&buf[j*size], &pEnd, 10);
             buf[(j+1)*size] = tmp;
             input.push_back(item);
@@ -98,4 +124,4 @@ matrix<scalar_type> read_matrix(const char *inputfile) {
     file.close();
 
     return M;
-}
+}*/

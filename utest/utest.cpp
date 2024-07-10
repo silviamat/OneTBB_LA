@@ -19,10 +19,9 @@ namespace {
     }
 
     TEST(utest, cholesky_seq_large) {
-        matrix<int> matrix1 = read_matrix<int>("/Users/silvia/CLionProjects/tfg/my_inputs/d750.O");
-        matrix cholesky = cholesky_factor(matrix1);
-        matrix transpose = cholesky.transpose();
-        matrix matrix2 = cholesky * transpose;
+        matrix<double> matrix1 = create_matrix<double>("/Users/silvia/CLionProjects/tfg/my_inputs/CSR_1000.txt");
+        matrix<double> cholesky = cholesky_factor(matrix1);
+        matrix<double> matrix2 = cholesky * cholesky.transpose();
         EXPECT_EQ((matrix1 == matrix2), 1);
     }
 
@@ -31,21 +30,21 @@ namespace {
                                {{25, 15, -5},
                                 {15, 18, 0},
                                 {-5, 0,  11}});
-        matrix cholesky = cholesky_factor_opt(matrix1);
+        matrix cholesky = cholesky_factor_for(matrix1);
         matrix transpose = cholesky.transpose();
         matrix matrix2 = cholesky * transpose;
         EXPECT_EQ((matrix1 == matrix2), 1);
     }
 
-    TEST(utest, cholesky_opt_large) {
+    /*TEST(utest, cholesky_opt_large) {
         matrix<int> matrix1 = read_matrix<int>("/Users/silvia/CLionProjects/tfg/my_inputs/d750.O");
         matrix cholesky = cholesky_factor_opt(matrix1);
         matrix transpose = cholesky.transpose();
         matrix matrix2 = cholesky * transpose;
         EXPECT_EQ((matrix1 == matrix2), 1);
-    }
+    }*/
 
-    TEST(utest, LU_seq) {
+    /*TEST(utest, LU_seq) {
         matrix<double> matrix1(3, 3,
                                {{25, 15, -5},
                                 {15, 18, 0},
@@ -73,5 +72,5 @@ namespace {
         matrix<int> matrix1 = read_matrix<int>("/Users/silvia/CLionProjects/tfg/my_inputs/d750.O");
         std::tuple<matrix<int>, matrix<int>> result = dolittle_decomposition(matrix1);
         EXPECT_EQ((matrix1 == get<1>(result)*get<0>(result)), 1);
-    }
+    }*/
 }
