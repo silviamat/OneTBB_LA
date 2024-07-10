@@ -1,12 +1,5 @@
 #!/bin/bash
-echo "Sequential:"
-echo "750x750 matrix"
-./cmake-build-debug/tfg "/Users/silvia/CLionProjects/tfg/my_inputs/d750.O"
-echo "1806x1806 matrix"
-./cmake-build-debug/tfg "/Users/silvia/CLionProjects/tfg/my_inputs/tk14.O"
-
-echo "Parallel:"
-echo "750x750 matrix"
-./cmake-build-debug/tfg "/Users/silvia/CLionProjects/tfg/my_inputs/d750.O" 1
-echo "1806x1806 matrix"
-./cmake-build-debug/tfg "/Users/silvia/CLionProjects/tfg/my_inputs/tk14.O" 1
+echo "100x100 matrix"
+./cmake-build-debug/tfg "/Users/silvia/CLionProjects/tfg/my_inputs/CSR_100.txt"
+echo "1000x1000 matrix"
+./cmake-build-debug/tfg "/Users/silvia/CLionProjects/tfg/my_inputs/CSR_1000.txt"
