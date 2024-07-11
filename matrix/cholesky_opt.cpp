@@ -30,7 +30,7 @@ matrix<scalar_type> cholesky_factor_reduce(const matrix<scalar_type>& input) {
 
     for (size_t i = 0; i < n; ++i) {
         scalar_type value_diag = input(i, i);
-        tbb::parallel_for(size_t(0), i, [&](size_t k){
+        for (size_t k = 0; k < i; ++k){
             scalar_type value = input(i, k);
             scalar_type reduction_value = tbb::parallel_reduce(
                     tbb::blocked_range<size_t>(size_t(0), k),
@@ -46,7 +46,7 @@ matrix<scalar_type> cholesky_factor_reduce(const matrix<scalar_type>& input) {
             value -= reduction_value;
             result(i, k) = value/result(k, k);
             value_diag -= result(i,k)*result(i,k);
-        });
+        }
         result(i, i) = std::sqrt(value_diag);
     }
     return result;

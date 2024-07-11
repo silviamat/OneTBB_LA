@@ -54,7 +54,7 @@ public:
         if(other.columns() != columns_){return false;}
         for(size_t i = 0; i < rows_; i++){
             for(size_t j = 0; j < columns_ ; j++){
-                if(elements_[i*columns_ + j] != other(i,j)){
+                if((elements_[i*columns_ + j] - other(i,j)) > 0.000001){
                     return false;
                 }
             }
@@ -118,7 +118,7 @@ private:
 };
 
 template <typename scalar_type> void print(std::ostream& out, const matrix<scalar_type>& a);
-template <typename scalar_type> matrix<scalar_type> read_matrix(const char *inputfile);
+template <typename scalar_type> matrix<scalar_type> create_matrix(const char *inputfile);
 //template <typename scalar_type> matrix<scalar_type> create_matrix(const char *inputfile);
 
 #endif //LINALG_SEQ_MATRIX_HPP

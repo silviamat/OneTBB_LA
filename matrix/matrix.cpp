@@ -5,17 +5,23 @@
 template <typename scalar_type>
 matrix<scalar_type> create_matrix(const char *inputfile) {
     size_t rows, cols, index;
-    double value;
+    scalar_type value;
+    char* c;
     std::ifstream file(inputfile);
     if (!file.is_open()) {
         std::cerr << "Error opening file: " << inputfile << std::endl;
     }
 
     file >> rows >> cols;
+    file.read(c,sizeof(char));
 
-    matrix M = matrix(rows,cols,0.0);
+    matrix M = matrix(rows, cols, 0.0);
 
     int row_idx = 0;
+    while (file.peek() == '\n') {
+        file.read(c,sizeof(char));
+        row_idx++;
+    }
     while (file >> index >> value) {
         M(row_idx,index) = value;
         if (file.peek() == '\n') {
