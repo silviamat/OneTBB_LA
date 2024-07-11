@@ -1,7 +1,7 @@
 #include "cholesky_seq.cpp"
 #include <tbb/tbb.h>
 
-template <typename scalar_type>
+/*template <typename scalar_type>
 matrix<scalar_type> cholesky_factor_for(const matrix<scalar_type>& input) {
     assert(input.rows() == input.columns());
     size_t n = input.rows();
@@ -20,7 +20,7 @@ matrix<scalar_type> cholesky_factor_for(const matrix<scalar_type>& input) {
         result(i, i) = std::sqrt(value_diag);
     }
     return result;
-}
+}*/
 
 template <typename scalar_type>
 matrix<scalar_type> cholesky_factor_reduce(const matrix<scalar_type>& input) {

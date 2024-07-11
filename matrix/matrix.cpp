@@ -6,20 +6,20 @@ template <typename scalar_type>
 matrix<scalar_type> create_matrix(const char *inputfile) {
     size_t rows, cols, index;
     scalar_type value;
-    char* c;
-    std::ifstream file(inputfile);
-    if (!file.is_open()) {
-        std::cerr << "Error opening file: " << inputfile << std::endl;
+    std::ifstream file;
+    file.open(inputfile, std::ifstream::in);
+    if (!file) {
+        std::cerr << "Error: Cannot open " << inputfile << " for reading\n";
     }
 
     file >> rows >> cols;
-    file.read(c,sizeof(char));
+    file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     matrix M = matrix(rows, cols, 0.0);
 
     int row_idx = 0;
     while (file.peek() == '\n') {
-        file.read(c,sizeof(char));
+        file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         row_idx++;
     }
     while (file >> index >> value) {
