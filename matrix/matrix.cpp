@@ -15,7 +15,7 @@ matrix<scalar_type> create_matrix(const char *inputfile) {
     file >> rows >> cols;
     file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    matrix M = matrix(rows, cols, 0.0);
+    matrix M{rows, cols, 0.0};
 
     int row_idx = 0;
     while (file.peek() == '\n') {
@@ -29,7 +29,6 @@ matrix<scalar_type> create_matrix(const char *inputfile) {
         }
     }
 
-    file.close();
     return M;
 }
 

@@ -1,32 +1,11 @@
 #include "cholesky_seq.cpp"
 #include <tbb/tbb.h>
 
-/*template <typename scalar_type>
-matrix<scalar_type> cholesky_factor_for(const matrix<scalar_type>& input) {
-    assert(input.rows() == input.columns());
-    size_t n = input.rows();
-    matrix<scalar_type> result(n, n);
-
-    for (size_t i = 0; i < n; ++i) {
-        scalar_type value_diag = input(i, i);
-        for (size_t k = 0; k < i; ++k){
-            scalar_type value = input(i, k);
-            tbb::parallel_for(size_t(0), k, [&](size_t j){
-                value -= result(i, j) * result(k, j);
-            });
-            result(i, k) = value/result(k, k);
-            value_diag -= result(i,k)*result(i,k);
-        }
-        result(i, i) = std::sqrt(value_diag);
-    }
-    return result;
-}*/
-
 template <typename scalar_type>
 matrix<scalar_type> cholesky_factor_reduce(const matrix<scalar_type>& input) {
     assert(input.rows() == input.columns());
     size_t n = input.rows();
-    matrix<scalar_type> result(n, n);
+    matrix<scalar_type> result{n, n};
 
     for (size_t i = 0; i < n; ++i) {
         scalar_type value_diag = input(i, i);
@@ -56,7 +35,7 @@ template <typename scalar_type>
 matrix<scalar_type> cholesky_factor_for_each(const matrix<scalar_type>& input) {
     assert(input.rows() == input.columns());
     size_t n = input.rows();
-    matrix<scalar_type> result(n, n);
+    matrix<scalar_type> result{n, n};
 
     using ElementIndex = std::pair<size_t,size_t>;
     ElementIndex origin(0,0);

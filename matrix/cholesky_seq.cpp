@@ -4,7 +4,7 @@ template <typename scalar_type>
 matrix<scalar_type> cholesky_factor(const matrix<scalar_type>& input) {
     assert(input.rows() == input.columns());
     size_t n = input.rows();
-    matrix<scalar_type> result(n, n);
+    matrix<scalar_type> result{n, n};
 
     for (size_t i = 0; i < n; ++i) {
         for (size_t k = 0; k < i; ++k) {
